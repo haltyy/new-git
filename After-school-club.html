@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>lesson</title>
+        <script src="https://unpkg.com/vue"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    </head>
+
+    <body>
+        
+        <div id="app">
+            <header>
+                <h2 v-text="sitename"></h2>
+            </header>   
+            <main>
+                    <figure>
+                        <img v-bind:src="subject.image">
+                    </figure>
+                    <h2 v-text="subject.title"></h2>
+                    <p v-text="subject.location"></p>
+                    <p>Price: {{subject.price}}</p>
+                    <p>Number of spaces: {{subject.inventory}}</p>
+                    <button v-on:click="addToCart" v-if="canAddToCart">{{ cartItemCount }} Add to cart</button> <!-- button that will appear when "canAddToCart" is true -->
+                    <button disabled='disabled' v-else> {{ cartItemCount }} Add to cart</button> <!--Else this button will be displayed -->
+                </main>
+        </div>
+
+
+        <script type="text/javascript">
+            var schoolclub = new Vue({
+                el: '#app',
+                data: {
+                    sitename: 'After School Club',
+                    subject:{ //the subject information
+                        id: 1001,
+                        title:"Math",
+                        location:"London",
+                        price: "$100",
+                        image:"math.png",
+                        inventory: 5
+                    },
+                    cart: [] //an array to store cart items
+                },
+                methods:{
+                    addToCart: function() { //EVENT FUNCTION
+                        this.cart.push(this.subject.id); //pushing subject id fron subject data to cart array
+                        
+                    }
+                },
+                computed: { //computed property object
+                    cartItemCount: function() { //property name #cartItemCount 
+                        return this.cart.length || ''; //to return the number of spaces added to cart
+                        
+                        },
+                        canAddToCart: function() {
+                            return this.subject.inventory > this.cartItemCount;// #cartItemCount here as data property 
+                            }
+                }               
+            })
+            </script>
+
+    </body>
+</html>
