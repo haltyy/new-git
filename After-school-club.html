@@ -7,7 +7,7 @@
 
     <body>
         
-        <div id="app">
+        <div id="app1">
             <header>
                 <h2 v-text="sitename"></h2>
             </header>   
@@ -15,37 +15,42 @@
                     <figure>
                         <img v-bind:src="subject.image">
                     </figure>
-                    <h2 v-text="subject.title"></h2>
-                    <p v-text="subject.location"></p>
+                    <h2 v-text="subject.title" ></h2>
+                    <p v-text="subject.location"></p> 
                     <p>Price: {{subject.price}}</p>
                     <p>Number of spaces: {{subject.inventory}}</p>
-                    <button v-on:click="addToCart" v-if="canAddToCart">{{ cartItemCount }} Add to cart</button> <!-- button that will appear when "canAddToCart" is true -->
-                    <button disabled='disabled' v-else> {{ cartItemCount }} Add to cart</button> <!--Else this button will be displayed -->
+                    <button v-on:click="decrement"  v-if="canAddToCart"> Add to cart </button> <!-- button that will appear when "canAddToCart" is true -->
+                    <button disabled='disabled' v-else>  Add to cart </button> <!--Else this button will be displayed -->
                 </main>
         </div>
 
 
         <script type="text/javascript">
             var schoolclub = new Vue({
-                el: '#app',
+                el: '#app1',
                 data: {
                     sitename: 'After School Club',
-                    subject:{ //the subject information
-                        id: 1001,
+                    subject:{//the subject information stored in a Vue object
                         title:"Math",
                         location:"London",
                         price: "$100",
                         image:"math.png",
-                        inventory: 5
+                        inventory:5
                     },
                     cart: [] //an array to store cart items
                 },
                 methods:{
-                    addToCart: function() { //EVENT FUNCTION
-                        this.cart.push(this.subject.id); //pushing subject id fron subject data to cart array
+                    decrement: function() { //EVENT FUNCTION
+                       if(this.subject.inventory > 0){
+                           this.subject.inventory--;
+                       }
                         
                     }
+                    
                 },
+
+
+                
                 computed: { //computed property object
                     cartItemCount: function() { //property name #cartItemCount 
                         return this.cart.length || ''; //to return the number of spaces added to cart
@@ -54,7 +59,7 @@
                         canAddToCart: function() {
                             return this.subject.inventory > this.cartItemCount;// #cartItemCount here as data property 
                             }
-                }               
+                },              
             })
             </script>
 
